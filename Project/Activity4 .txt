@@ -1,0 +1,144 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\001YHS744> docker container run -it -p 9870:9870 -p 8088:8088 registry.gitlab.com/training-support/training-environments:hadoop-v1 bash
+/
+ * Starting OpenBSD Secure Shell server sshd                                                                     [ OK ]
+Waiting for hdfs to exit from safemode
+Safe mode is OFF
+Started
+root@b729a9fcc55c:/#  vim file01.txt
+root@b729a9fcc55c:/# hive
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-3.1.2-bin/lib/log4j-slf4j-impl-2.10.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-3.3.1/share/hadoop/common/lib/slf4j-log4j12-1.7.30.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Hive Session ID = ea1a2cd5-8bd3-4a21-9101-fdbd7ac89ea3
+
+Logging initialized using configuration in jar:file:/usr/local/apache-hive-3.1.2-bin/lib/hive-common-3.1.2.jar!/hive-log4j2.properties Async: true
+Hive Session ID = 71632559-6dd1-47f4-89ae-a2c956b7c926
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+hive> Display all 633 possibilities? (y or n)
+hive> CREATE TABLE files (line STRING);
+OK
+Time taken: 1.453 seconds
+hive> LOAD DATA LOCAL INPATH '/file01.txt' INTO TABLE files;
+Loading data to table default.files
+OK
+Time taken: 1.46 seconds
+hive> CREATE TABLE word_counts AS
+    > SELECT word, count(1) AS count FROM
+    > (SELECT explode(split(line, ' ')) AS word FROM files) w
+    > GROUP BY word
+    > ORDER BY word:
+    > ;
+NoViableAltException(8@[423:1: atomExpression : ( constant | ( intervalExpression )=> intervalExpression | castExpression | extractExpression | floorExpression | caseExpression | whenExpression | ( subQueryExpression )=> ( subQueryExpression ) -> ^( TOK_SUBQUERY_EXPR TOK_SUBQUERY_OP subQueryExpression ) | ( functionName LPAREN )=> function | tableOrColumn |expressionsInParenthesis[true, false] );])
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser$DFA36.specialStateTransition(HiveParser_IdentifiersParser.java:34559)
+        at org.antlr.runtime.DFA.predict(DFA.java:80)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.atomExpression(HiveParser_IdentifiersParser.java:6930)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceFieldExpression(HiveParser_IdentifiersParser.java:7172)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceUnaryPrefixExpression(HiveParser_IdentifiersParser.java:7671)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceUnarySuffixExpression(HiveParser_IdentifiersParser.java:7727)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceBitwiseXorExpression(HiveParser_IdentifiersParser.java:7889)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceStarExpression(HiveParser_IdentifiersParser.java:8032)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedencePlusExpression(HiveParser_IdentifiersParser.java:8175)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceConcatenateExpression(HiveParser_IdentifiersParser.java:8314)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceAmpersandExpression(HiveParser_IdentifiersParser.java:8524)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceBitwiseOrExpression(HiveParser_IdentifiersParser.java:8661)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceSimilarExpressionMain(HiveParser_IdentifiersParser.java:9144)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceSimilarExpression(HiveParser_IdentifiersParser.java:9040)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceEqualExpression(HiveParser_IdentifiersParser.java:10254)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceNotExpression(HiveParser_IdentifiersParser.java:10541)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceAndExpression(HiveParser_IdentifiersParser.java:10650)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.precedenceOrExpression(HiveParser_IdentifiersParser.java:10791)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.expression(HiveParser_IdentifiersParser.java:6870)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.expression(HiveParser.java:45074)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.columnRefOrder(HiveParser.java:33685)
+        at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.orderByClause(HiveParser_IdentifiersParser.java:2931)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.orderByClause(HiveParser.java:45116)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.selectStatement(HiveParser.java:40079)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.selectStatementWithCTE(HiveParser.java:40732)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.createTableStatement(HiveParser.java:6848)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.ddlStatement(HiveParser.java:4295)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.execStatement(HiveParser.java:2494)
+        at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1420)
+        at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:220)
+        at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:74)
+        at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:67)
+        at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:616)
+        at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1826)
+        at org.apache.hadoop.hive.ql.Driver.compileAndRespond(Driver.java:1773)
+        at org.apache.hadoop.hive.ql.Driver.compileAndRespond(Driver.java:1768)
+        at org.apache.hadoop.hive.ql.reexec.ReExecDriver.compileAndRespond(ReExecDriver.java:126)
+        at org.apache.hadoop.hive.ql.reexec.ReExecDriver.run(ReExecDriver.java:214)
+        at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:239)
+        at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:188)
+        at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:402)
+        at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+        at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+        at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:683)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.apache.hadoop.util.RunJar.run(RunJar.java:323)
+        at org.apache.hadoop.util.RunJar.main(RunJar.java:236)
+FAILED: ParseException line 5:13 cannot recognize input near 'word' ':' '<EOF>' in expression specification
+hive> CREATE TABLE word_counts AS
+    > SELECT word, count(1) AS count FROM
+    > (SELECT explode(split(line, ' ')) AS word FROM files) w
+    > GROUP BY word
+    > ORDER BY word;
+Query ID = root_20231124112857_dac031b1-28f8-4c0e-bc95-36e32a507eb5
+Total jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1700825128815_0001, Tracking URL = http://b729a9fcc55c:8088/proxy/application_1700825128815_0001/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1700825128815_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-11-24 11:29:12,062 Stage-1 map = 0%,  reduce = 0%
+2023-11-24 11:29:18,652 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 5.25 sec
+2023-11-24 11:29:23,921 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 7.03 sec
+MapReduce Total cumulative CPU time: 7 seconds 30 msec
+Ended Job = job_1700825128815_0001
+Launching Job 2 out of 2
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1700825128815_0002, Tracking URL = http://b729a9fcc55c:8088/proxy/application_1700825128815_0002/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1700825128815_0002
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2023-11-24 11:29:39,404 Stage-2 map = 0%,  reduce = 0%
+2023-11-24 11:29:44,894 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 1.94 sec
+2023-11-24 11:29:50,141 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 4.85 sec
+MapReduce Total cumulative CPU time: 4 seconds 850 msec
+Ended Job = job_1700825128815_0002
+Moving data to directory hdfs://b729a9fcc55c:9000/user/hive/warehouse/word_counts
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 7.03 sec   HDFS Read: 8170 HDFS Write: 166 SUCCESS
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 4.85 sec   HDFS Read: 7297 HDFS Write: 97 SUCCESS
+Total MapReduce CPU Time Spent: 11 seconds 880 msec
+OK
+Time taken: 55.089 seconds
+hive> SELECT * FROM word_count;
+FAILED: SemanticException [Error 10001]: Line 1:14 Table not found 'word_count'
+hive> SELECT * FROM word_counts;
+OK
+Bye     1
+Hello   1
+World   2
+Time taken: 0.482 seconds, Fetched: 3 row(s)
+hive> SELECT * FROM word_count;
