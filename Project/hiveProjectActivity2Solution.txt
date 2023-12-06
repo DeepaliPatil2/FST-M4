@@ -1,0 +1,110 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\001YHS744> docker container run -it -p 9870:9870 -p 8088:8088 registry.gitlab.com/training-support/training-environments:hadoop-v1 bash
+docker: request returned Internal Server Error for API route and version http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.24/containers/create, check if the server supports the requested API version.
+See 'docker run --help'.
+PS C:\Users\001YHS744> docker container run -it -p 9870:9870 -p 8088:8088 registry.gitlab.com/training-support/training-environments:hadoop-v1 bash
+/
+ * Starting OpenBSD Secure Shell server sshd                                                                     [ OK ]
+Waiting for hdfs to exit from safemode
+Safe mode is OFF
+Started
+root@8bd4dd16d71e:/# vim episodeIV.txt
+root@8bd4dd16d71e:/# hdfs dfs -put ./episodeIV.txt /user/root
+root@8bd4dd16d71e:/# hive
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-3.1.2-bin/lib/log4j-slf4j-impl-2.10.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-3.3.1/share/hadoop/common/lib/slf4j-log4j12-1.7.30.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Hive Session ID = 508c235d-09a5-4d80-be7f-f0a7e76c1937
+
+Logging initialized using configuration in jar:file:/usr/local/apache-hive-3.1.2-bin/lib/hive-common-3.1.2.jar!/hive-log4j2.properties Async: true
+Hive Session ID = 00265ea5-6d07-4c78-8b6d-5d600dfe6e51
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+hive> CREATE TABLE tableActivity2 (lineValue STRING);
+OK
+Time taken: 1.246 seconds
+hive> LOAD DATA LOCAL INPATH 'episodeIV.txt' INTO TABLE tableActivity2;
+Loading data to table default.tableactivity2
+OK
+Time taken: 0.68 seconds
+hive> select count(*) from tableActivity2 ;
+Query ID = root_20231206051906_2a69457e-0d39-4f67-8d53-a442f3ff3c4a
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1701832068082_0002, Tracking URL = http://8bd4dd16d71e:8088/proxy/application_1701832068082_0002/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1701832068082_0002
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-12-06 05:19:18,835 Stage-1 map = 0%,  reduce = 0%
+2023-12-06 05:19:25,144 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 4.33 sec
+2023-12-06 05:19:33,497 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 9.24 sec
+MapReduce Total cumulative CPU time: 9 seconds 240 msec
+Ended Job = job_1701832068082_0002
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 9.24 sec   HDFS Read: 79879 HDFS Write: 104 SUCCESS
+Total MapReduce CPU Time Spent: 9 seconds 240 msec
+OK
+1013
+Time taken: 28.159 seconds, Fetched: 1 row(s)
+hive> select count(*) from tableActivity2 where lineValue="%LUKE%";
+Query ID = root_20231206053611_ba84f8e6-69aa-4126-b1ca-cbf210ee1535
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1701832068082_0013, Tracking URL = http://8bd4dd16d71e:8088/proxy/application_1701832068082_0013/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1701832068082_0013
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-12-06 05:36:18,271 Stage-1 map = 0%,  reduce = 0%
+2023-12-06 05:36:23,500 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 3.66 sec
+2023-12-06 05:36:29,850 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 7.56 sec
+MapReduce Total cumulative CPU time: 7 seconds 560 msec
+Ended Job = job_1701832068082_0013
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 7.56 sec   HDFS Read: 81186 HDFS Write: 101 SUCCESS
+Total MapReduce CPU Time Spent: 7 seconds 560 msec
+OK
+0
+Time taken: 19.748 seconds, Fetched: 1 row(s)
+hive> select count(*) from tableActivity2 where lineValue like '%LUKE%';
+Query ID = root_20231206053732_571835be-cbb9-4fda-b180-96f930fc689a
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1701832068082_0015, Tracking URL = http://8bd4dd16d71e:8088/proxy/application_1701832068082_0015/
+Kill Command = /usr/local/hadoop/bin/mapred job  -kill job_1701832068082_0015
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-12-06 05:37:40,455 Stage-1 map = 0%,  reduce = 0%
+2023-12-06 05:37:45,629 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 3.19 sec
+2023-12-06 05:37:51,832 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 6.01 sec
+MapReduce Total cumulative CPU time: 6 seconds 10 msec
+Ended Job = job_1701832068082_0015
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 6.01 sec   HDFS Read: 81141 HDFS Write: 103 SUCCESS
+Total MapReduce CPU Time Spent: 6 seconds 10 msec
+OK
+254
+Time taken: 20.381 seconds, Fetched: 1 row(s)
+hive>

@@ -1,0 +1,2 @@
+hive> dfs -cat /user/root/000000_0;
+254
